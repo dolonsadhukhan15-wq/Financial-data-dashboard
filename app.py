@@ -12,7 +12,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- ⚡ THE CACHE ⚡ ---
+# THE CACHE
 # This tells Python: "Remember the last 50 company searches so we don't have to download them twice!"
 @functools.lru_cache(maxsize=50)
 def fetch_data_from_internet(symbol: str):
@@ -26,7 +26,7 @@ def fetch_summary_from_internet(symbol: str):
 # -----------------------
 
 @app.get("/companies")
-async def get_companies(): # <-- ⚡ ASYNC HANDLING ⚡
+async def get_companies(): #ASYNC HANDLING 
     return {
         "companies": [
             {"symbol": "AAPL", "name": "Apple Inc."},
@@ -38,7 +38,7 @@ async def get_companies(): # <-- ⚡ ASYNC HANDLING ⚡
     }
 
 @app.get("/data/{symbol}")
-async def get_stock_data(symbol: str, days: int = 30): # <-- ⚡ ASYNC HANDLING ⚡
+async def get_stock_data(symbol: str, days: int = 30): #ASYNC HANDLING 
     
     # Use our new cached function instead of downloading directly!
     history = fetch_data_from_internet(symbol)
@@ -54,7 +54,7 @@ async def get_stock_data(symbol: str, days: int = 30): # <-- ⚡ ASYNC HANDLING 
     return final_data.to_dict(orient="records")
 
 @app.get("/summary/{symbol}")
-async def get_summary(symbol: str): # <-- ⚡ ASYNC HANDLING ⚡
+async def get_summary(symbol: str): # ASYNC HANDLING 
     
     # Use our new cached function!
     history = fetch_summary_from_internet(symbol)
